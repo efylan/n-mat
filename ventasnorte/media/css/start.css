@@ -1,0 +1,39 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+div {
+	padding: 1px 0;
+}
+#header {
+	background: #DDDDDD;
+}
+#content-wrapper {
+	float: right;
+	width: 60%;
+	background: #98F5E8;
+}
+#content-main {
+	float: left;
+	width: 50%;
+	background: #F0EE90;
+    min-height:400px;
+}
+#content-secondary {
+	float: right;
+	width: 50%;
+	background: #9BF598;
+    min-height:400px;
+}
+#sidebar {
+	float: left;
+	width: 30%;
+	background: #FFA480;
+    min-height:400px;
+}
+#footer {
+	clear: both;
+	background: #DDDDDD;
+}
+

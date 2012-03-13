@@ -1,0 +1,141 @@
+{%extends "base.html"%}
+
+{%block title%}
+<title>Clasificado {{casa.id}}a - {{casa.titulo}}</title>
+{%endblock%}
+
+{%block maincontent%}
+
+<div id="wrapper">
+		<div id="sidecontent">
+            <h2>Busqueda</h2>
+		</div>
+		<div id="centercontent">
+    <h3 class="titulo">{{casa.titulo}}</h3>
+
+
+<div class="photo_slot">
+    {%for foto in casa.fotocasa_set.all%}
+        <div class="imagerv">            
+            <a href="/media/{{foto.foto.url}}"><img class="rvgallery" src="/media/{{foto.get_thumb_url}}" /></a>
+
+        </div>
+    {%endfor%}
+</div>
+
+
+    {{casa.pauqete.nombre}}
+    <div class="topinfo">
+        <table class="info_casa">
+        {%if casa.precio%}
+        <tr>
+            <td>
+               <span class="precio"> ${{casa.precio|floatformat:2}} {{casa.get_moneda_display}}</span>
+            </td>
+        </tr>
+        {%endif%}
+
+        <tr>
+            <td>En {{casa.get_disponibilidad_display}}</td>
+        </tr>
+        <tr>
+            <td>En {{casa.municipio}}, {{casa.estado}}</td>
+        </tr>
+        </table>
+        
+        {% if request.user.id %}
+            {%if fav_exists%}
+            <form method="POST" action="{%url clasificados.views.rmfav_casa casa.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Quitar Favorito" class="button orangeb">
+            </form>
+            {%else%}
+            <form method="POST" action="{%url clasificados.views.fav_casa casa.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Agregar Favorito" class="button orangeb">
+            </form>
+            {%endif%}
+        {%endif%}
+        {%if request.user.id == casa.user.id%}
+            {%if casa.status == 0%}
+            <form method="POST" action="{%url clasificados.views.apagar_casa casa.id%}">
+                {%csrf_token%}
+                <input type="submit" value="DESACTIVAR CLASIFICADO" class="button redb">
+            </form>
+            {%else%}
+            <form method="POST" action="{%url users.views.reactivar_casa casa.id%}">
+                {%csrf_token%}
+                <input type="submit" value="REACTIVAR CLASIFICADO" class="button greenb">
+            </form>
+
+            {%endif%}
+        {%endif%}
+    </div>
+
+
+    <p class="descripcion">
+        {{casa.descripcion}}
+    </p>
+
+
+
+    <table class="dets_casa">
+        <tr>
+            <th>Domicilio</th><th>Colonia</th>
+        </tr>
+        <tr>
+            <td>{{casa.domicilio}}</td>   <td>{{casa.colonia}}</td>
+        </tr>
+        <tr>
+            <th>Codigo Postal</th><th>Referencia</th>
+        </tr>
+        <tr>
+            <td>{{casa.codigo_postal}}</td><td>{{casa.referencia}}</td>
+        </tr>
+        <tr>
+            <th>Condicion</th><th>Pisos</th>
+        </tr>
+        <tr>
+            <td>{{casa.get_condicion_display}}</td><td>{{casa.pisos}}</td>
+        </tr>
+        <tr>
+            <th>Tamaño de Area</th><th>No. de Recamaras</th>
+        </tr>
+        <tr>
+            <td>{{casa.superficie}}</td><td>{{casa.recamaras}}</td>
+        </tr>
+
+        <tr>
+            <th>No. de Baños</th><td></td>
+        </tr>
+        <tr>
+            <td>{{casa.banos}}</td><td></td>
+        </tr>
+    </table>
+
+
+
+<table class="contact_info">
+    <tr>
+        <th class="section_title" colspan="2">Informacion de Contacto</th>
+    </tr>
+
+    <tr>
+        <th>Correo Electronico</th> <td>{{casa.email}}</td>
+    </tr>
+
+    <tr>
+        <th>Telefono Fijo</th><td>{{casa.telefono}}</td>
+    </tr>
+
+    <tr>
+        <th>Celular</th><td>{{casa.celular}}</td>
+    </tr>
+
+    <tr>
+        <th>Direccion</th><td>{{casa.direccion}}</td>
+    </tr>
+</table>
+</div>
+
+{%endblock%}

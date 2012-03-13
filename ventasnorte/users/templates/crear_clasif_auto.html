@@ -1,0 +1,29 @@
+{%extends "base.html"%}
+
+{%block title%}
+<title>Clasificado para automovil/vehiculo</title>
+{%endblock%}
+
+{%block maincontent%}
+<div id="content">
+    <div id="form">
+        <form method="POST">
+            <input type="hidden" id="id_mintexto" value="140">
+            {%csrf_token%}
+            <table>
+                {{form}}
+            </table>
+            <input type="submit" value="Guardar" class="button blueb">
+
+    </div>
+    <div id="userinfo_form">
+
+            {%csrf_token%}
+            <table>
+                {{form2}}
+            </table>
+        </form>
+    </div>
+
+</div>
+{%endblock%}

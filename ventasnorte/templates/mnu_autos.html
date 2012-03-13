@@ -1,0 +1,13 @@
+            {% for marca in marcas %}
+                        <li>
+        				    <a href="{%url clasificados.views.modelos_autos marca.slug%}">{{marca.nombre}}</a>
+				            <ul>
+                                {% for modelo in marca.modeloauto_set.all %}
+					                <li>
+						                <a href="{% url clasificados.views.series_autos modelo.slug%}">{{modelo.nombre}}</a>
+					                </li>
+                                {% endfor %}
+				            </ul>
+                        </li>
+            {%endfor%}
+

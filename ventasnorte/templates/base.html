@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {%block title%}
+	<title>Negocios de Matamoros - Clasificados, Directorio de empresas y mas</title>
+    {%endblock%}
+	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+	<meta name="description" content="Negocios de matamoros, publica tus clasificados y encuentra las empresas que necesites." />
+	<meta name="keywords" content="negocios de matamoros clasificados directorio empresas comercios casas coches autos automoviles real estate used car sales bienes raices renta venta usados nuevos chocados" />
+	<meta name="robots" content="index, follow" />
+
+	<link rel="stylesheet" type="text/css" href="/media/css/start2.css" />
+	<link rel="stylesheet" type="text/css" href="/media/jquery/superfish/css/superfish.css" media="screen">
+    <script type="text/javascript" src="/media/jquery/js/jquery-1.7.1.min.js"></script>
+    <script src="http://cdn.jquerytools.org/1.2.6/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="/media/js/menu.js"></script>
+    <script type="text/javascript" src="/media/jquery/charCount.js"></script>
+    <script type="text/javascript" src="/media/js/operaciones.js"></script>
+    <script type="text/javascript" src="/media/jquery/superfish/js/superfish.js"></script>
+	<script type="text/javascript" src="/media/jquery/superfish/js/hoverIntent.js"></script>
+
+    <script> 
+
+        $(document).ready(function() { 
+
+        $('ul.sf-menu').superfish({ 
+            delay:       1000,                            // one second delay on mouseout 
+            animation:   {opacity:'show',height:'show'},  // fade-in and slide-down animation 
+            //speed:       'fast',                          // faster animation speed 
+        }); 
+
+        }); 
+     
+    </script>
+    {%block extrahead%}
+    {%endblock%}
+</head>
+
+
+<body>
+    <div id="topcontent">
+        <h1 class="nombre">Negocios de Matamoros</h1>
+        <div id="login">
+            {%if request.user.id%}
+            <p>{{request.user.username}} | 
+          {%if request.user.is_staff%}
+            <a class="white" href="{%url caja.views.panel%}">Panel de STAFF</a>
+          {%else%} 
+            <a class="white" href="{%url users.views.panel%}">Panel</a>
+          {%endif%}
+        | <a class="white" href="{%url users.views.logout%}">Cerrar Sesión</a></p>
+            {%else%}
+            <p><a class="white" href="{%url users.views.login%}?next={{request.path}}">Iniciar Sesión</a></p>
+            {%endif%}            
+        </div>
+
+        {%block topcontent%}
+        {%endblock%}
+    </div>
+
+{%include "menu.html"%}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div id="breadcrumbs">
+    {%block breadcrumbs%}
+    {%endblock%}
+</div>
+
+<div id='lower'> 
+    {%block maincontent%}
+    {%endblock%}
+</div>
+
+</body>
+</html>

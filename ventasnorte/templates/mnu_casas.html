@@ -1,0 +1,20 @@
+
+			    <li>
+		            <a href="{%url clasificados.views.categorias_casas%}">Todas las Categorías</a>
+                    <ul>
+                    {% for categoria in categorias %}
+                        <li>
+				            <a href="{%url clasificados.views.disponibilidad_casas categoria.slug%}">{{categoria.nombre}}</a>
+				            <ul>
+                                {% for dispo in dispos %}
+					                <li>
+						                <a href="{%url clasificados.views.catdis_casas categoria.slug dispo.slug%}">{{dispo.nombre}}</a>
+					                </li>
+                                {% endfor %}
+				            </ul>
+                        </li>
+                    {%endfor%}
+                    </ul>
+			    </li>
+
+

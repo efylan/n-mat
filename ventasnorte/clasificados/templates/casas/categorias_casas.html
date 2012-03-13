@@ -1,0 +1,30 @@
+{%extends "casas/base_casas.html"%}
+
+{%block title%}
+    <title>Buscar por Marcas de Autos - Negocios de Matamoros</title>
+{%endblock title%}
+
+{%block breadcrumbs%}
+    <p>
+        <a href="{%url views.index%}">Inicio</a>
+        >> <a href="{%url clasificados.views.main_casas%}">Casas e Inmuebles</a>
+        >> <span>Categorias</span>
+    </p>
+{%endblock%}
+
+
+{%block centercontent%}
+
+{% load pagination_tags %}
+{% autopaginate categorias %}
+
+        {%for categoria in categorias%}
+        <div class="list_auto">
+            <h3><a href="{%url clasificados.views.disponibilidad_casas categoria.slug%}">{{categoria.nombre}}</a></h3>
+            <br>
+        </div>
+        {%endfor%}
+
+{%paginate%}
+
+{%endblock%}

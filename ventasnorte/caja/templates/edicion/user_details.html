@@ -1,0 +1,93 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+<div id="content">
+    <table class="user_info">
+        <tr>
+            <td>ID</td>
+            <td>{{user.id}}</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>{{user.username}}</td>
+        </tr>
+        <tr>
+            <td>Nombre(s)</td>
+            <td>{{user.first_name}}</td>
+        </tr>
+        <tr>
+            <td>Apellido(s)</td>
+            <td>{{user.last_name}}</td>
+        </tr>
+        <tr>
+            <td>E-Mail</td>
+            <td>{{user.email}}</td>
+        </tr>
+        <tr>
+            <td>Telefono</td>
+            <td>{{user.get_profile.telefono}}</td>
+        </tr>
+        <tr>
+            <td>Celular</td>
+            <td>{{user.celular}}</td>
+        </tr>
+        <tr>
+            <td>Direccion</td>
+            <td>{{user.direccion}}</td>
+        </tr>
+    </table>
+<br>
+<br>
+{%if autos%}
+
+<h2>Clasificados de Vehiculos</h2>
+
+    <table class="user_list">
+        <tr>
+            <th>ID</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Serie</th>
+            <th>Condicion</th>
+            <th>Color</th>
+        </tr>
+        {%for auto in autos%}
+        <tr>
+            <td><a href="{%url caja.views.editar_auto auto.id%}">{{auto.id}}</a></td>
+            <td><a href="{%url caja.views.editar_auto auto.id%}">{{auto.marca.nombre}}</a></td>
+            <td><a href="{%url caja.views.editar_auto auto.id%}">{{auto.modelo.nombre}}</a></td>
+            <td>{{auto.serie}}</td>
+            <td>{{auto.condicion}}</td>
+            <td>{{auto.color}}</td>
+        </tr>
+        {%endfor%}
+    </table>
+<br>
+<br>
+{%endif%}
+
+{%if casas%}
+<h2>Clasificados de Casas y bienes inmuebles</h2>
+    <table class="user_list">
+        <tr>
+            <th>ID</th>
+            <th>Categoria</th>
+            <th>Disponibilidad</th>
+            <th>Colonia</th>
+            <th>Condicion</th>
+            <th>Area</th>
+        </tr>
+        {%for casa in casas%}
+        <tr>
+            <td><a href="{%url caja.views.editar_casa casa.id%}">{{casa.id}}</a></td>
+            <td><a href="{%url caja.views.editar_casa casa.id%}">{{casa.categoria_casa.nombre}}</a></td>
+            <td><a href="{%url caja.views.editar_casa casa.id%}">{{casa.get_disponibilidad_display}}</a></td>
+            <td>{{casa.colonia}}</td>
+            <td>{{casa.condicion}}</td>
+            <td>{{casa.superficie}}</td>
+        </tr>
+        {%endfor%}
+    </table>
+{%endif%}
+</div>
+{%endblock%}

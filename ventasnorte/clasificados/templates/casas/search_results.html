@@ -1,0 +1,17 @@
+{%extends "casas/base_casas.html"%}
+
+
+{%block title%}
+<title>Casas - Resultados de Búsqueda - Negocios de Matamoros</title>
+{%endblock%}
+
+
+{%block centercontent%}
+{%if casas%}
+{%else%}
+    <p>No se encontraron resultados para su búsqueda.</p>
+{%endif%}
+
+            {%include "casas/list_casas.html"%}
+
+{%endblock%}

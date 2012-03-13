@@ -1,0 +1,13 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+<div id="content">
+    <ul class="blue">
+        <li><a class="blue" href="{%url caja.views.registrar_usuario%}">Registrar un nuevo usuario</a></li>
+        <li><a class="blue" href="{%url caja.views.crear_ccasa%}">Crear Clasificado de Casa/Bienes inmuebles</a></li>
+        <li><a class="blue" href="{%url caja.views.crear_cauto%}">Crear Clasificado de Automovil o Vehiculo</a></li>
+        <li><a class="blue" href="{%url caja.views.modificaciones%}">Modificaciones y Correcciones</a></li>
+
+    </ul>
+</div>
+{%endblock%}

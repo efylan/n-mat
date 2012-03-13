@@ -1,0 +1,32 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+<div id="content">
+    <div class="modif_section">
+        <h2>Buscar por ID de Clasificado</h2>
+        <br>
+        <form method="POST" action="{% url caja.views.id_search %}">
+        {%csrf_token%}
+            <table>
+                {{f1}}
+            </table>
+        <input type="submit" value="Buscar por ID" class="button greenb">
+        </form>
+        
+    </div>
+
+        <br>
+        <br>
+
+    <div class="modif_section">
+        <h2>Buscar por Usuario</h2>
+        <br>
+        <form method="GET" action="{% url caja.views.name_search %}">
+            <table>
+                {{f2}}
+            </table>
+        <input type="submit" value="Buscar Usuario" class="button greenb">
+        </form>
+    </div>
+</div>
+{%endblock%}

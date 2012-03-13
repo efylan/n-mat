@@ -1,0 +1,26 @@
+{%extends "casas/base_casas.html"%}
+
+{%block title%}
+    <title>{{categoria.nombre}} - Categorias de inmuebles - Negocios de Matamoros</title>
+{%endblock title%}
+
+{%block breadcrumbs%}
+    <p>
+        <a href="{%url views.index%}">Inicio</a>
+        >> <a href="{%url clasificados.views.main_casas%}">Casas e Inmuebles</a>
+        >> <a href="{%url clasificados.views.categorias_casas%}">Categorias</a>
+        >> <span>{{categoria.nombre}}</span>
+    </p>
+{%endblock%}
+
+
+{%block centercontent%}
+
+            {%for dispo in dispos%}
+            <div class="list_auto">
+                <h3><a href="{%url clasificados.views.catdis_casas categoria.slug dispo.slug%}">{{dispo.nombre}}</a></h3>
+                <br>
+            </div>
+            {%endfor%}
+
+{%endblock%}

@@ -1,0 +1,18 @@
+{%extends "autos/base_autos.html"%}
+
+
+{%block title%}
+<title>Autos - Resultados de Búsqueda - Negocios de Matamoros</title>
+{%endblock%}
+
+
+{%block centercontent%}
+{%if autos%}
+{%else%}
+    <p>No se encontraron resultados para su búsqueda.</p>
+{%endif%}
+
+
+            {%include "autos/list_autos.html"%}
+
+{%endblock%}

@@ -1,0 +1,31 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+{%block title%}
+    <title>Mis Favoritos - Negocios de matamoros</title>
+{%endblock title%}
+<div id="content">
+    <h2>Vehiculos</h2>
+    {%for auto in autos%}
+    <div class="list_auto">
+        <h3><a href="{%url clasificados.views.ver_auto auto.id%}">{{auto.titulo}}</a></h3>
+        {{auto.marca.nombre}}, {{auto.modelo.nombre}}, {{auto.serie.nombre}}
+        <br>
+        {{auto.descripcion}}
+    </div>
+    {%endfor%}
+
+<br>
+<br>
+
+    <h2>Casas/Bienes inmuebles</h2>
+    {%for casa in casas%}
+    <div class="list_auto">
+        <h3><a href="{%url clasificados.views.ver_casa casa.id%}">{{casa.titulo}}</a></h3>
+        En {{casa.get_disponibilidad_display}}, En {{casa.estado}}, {{casa.municipio}}.
+        <br>
+        {{casa.descripcion}}
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

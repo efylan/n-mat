@@ -1,0 +1,33 @@
+{%extends "base.html"%}
+{%load form_tags%}
+
+{%block maincontent%}
+
+<div id="wrapper">
+
+		<div id="sidecontent">
+            <h2>Búsqueda</h2>
+            {%simple_search_auto%}
+<br>
+            <h2>Con palabras</h2>
+            <form class="searchform" action ="{%url clasificados.views.text_search_auto%}">
+                <input class="searchfield" type="text" value="Buscar Autos" onfocus="if (this.value == 'Buscar Autos') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar Autos';}" name="q" />
+                <input class="searchbutton" type="button" value="Ir" />
+            </form>
+
+
+            {%block sidecontent%}
+            {%endblock%}
+		</div>
+
+
+
+		<div id="centercontent">
+            {%block centercontent%}
+            {%endblock%}
+        </div>
+
+        <div class="clear">
+        </div>
+</div>
+{%endblock%}

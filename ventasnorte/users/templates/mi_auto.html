@@ -1,0 +1,138 @@
+{%extends "base.html"%}
+
+{%block title%}
+<title>Clasificado {{auto.id}}a - {{auto.titulo}}</title>
+{%endblock%}
+
+{%block maincontent%}
+
+<div id="wrapper">
+		<div id="sidecontent">
+            <h2>Busqueda</h2>
+		</div>
+		<div id="centercontent">
+    <h3 class="titulo">{{auto.titulo}}</h3>
+
+
+<div class="photo_slot">
+    {%for foto in auto.fotoauto_set.all%}
+        <div class="imagerv">            
+            <a href="/media/{{foto.foto.url}}"><img class="rvgallery" src="/media/{{foto.get_thumb_url}}" /></a>
+        </div>
+    {%endfor%}
+</div>
+
+
+    {{auto.pauqete.nombre}}
+    <div class="topinfo">
+        <table class="info_auto">
+        {%if auto.precio%}
+        <tr>
+            <td>
+               <span class="precio"> ${{auto.precio|floatformat:2}} {{auto.get_moneda_display}}</span>
+            </td>
+        </tr>
+        {%endif%}
+
+        <tr>
+            <td>{{auto.marca}}, {{auto.modelo}}, {{auto.serie}}</td>
+        </tr>
+        <tr>
+            <td>En {{auto.municipio}}, {{auto.estado}}</td>
+        </tr>
+        </table>
+        {% if request.user.id %}
+            {%if fav_exists%}
+            <form method="POST" action="{%url clasificados.views.rmfav_auto auto.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Quitar Favorito" class="button orangeb">
+            </form>
+            {%else%}
+            <form method="POST" action="{%url clasificados.views.fav_auto auto.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Agregar Favorito" class="button orangeb">
+            </form>
+            {%endif%}
+        {%if request.user.id == auto.user.id%}
+            {%if auto.status == 0%}
+            <form method="POST" action="{%url clasificados.views.apagar_auto auto.id%}">
+                {%csrf_token%}
+                <input type="submit" value="DESACTIVAR CLASIFICADO" class="button redb">
+            </form>
+            {%else%}
+            <form method="POST" action="{%url users.views.reactivar_auto auto.id%}">
+                {%csrf_token%}
+                <input type="submit" value="REACTIVAR CLASIFICADO" class="button greenb">
+            </form>
+            {%endif%}
+        {%endif%}
+
+        {%endif%}
+    </div>
+
+
+    <p class="descripcion">
+        {{auto.descripcion}}
+    </p>
+
+
+    <table class="dets_auto">
+        <tr>
+            <th>Condicion</th><th>Pasajeros</th>
+        </tr>
+        <tr>
+            <td>{{auto.get_condicion_display}}</td>   <td>{{auto.pasajeros}}</td>
+        </tr>
+        <tr>
+            <th>Color</th><th>Transmision</th>
+        </tr>
+        <tr>
+            <td>{{auto.color}}</td><td>{{auto.transmision}}</td>
+        </tr>
+        <tr>
+            <th>Puertas</th><th>Cilindros</th>
+        </tr>
+        <tr>
+            <td>{{auto.puertas}}</td><td>{{auto.cilindros}}</td>
+        </tr>
+        <tr>
+            <th>Combustible</th><th>Kilometraje</th>
+        </tr>
+        <tr>
+            <td>{{auto.combustible}}</td><td>{{auto.kilometraje}}</td>
+        </tr>
+
+    </table>
+
+
+
+<table class="contact_info">
+    <tr>
+        <th class="section_title" colspan="2">Informacion de Contacto</th>
+    </tr>
+
+    <tr>
+        <th>Correo Electronico</th> <td>{{auto.email}}</td>
+    </tr>
+
+    <tr>
+        <th>Telefono Fijo</th><td>{{auto.telefono}}</td>
+    </tr>
+
+    <tr>
+        <th>Celular</th><td>{{auto.celular}}</td>
+    </tr>
+
+    <tr>
+        <th>Direccion</th><td>{{auto.direccion}}</td>
+    </tr>
+</table>
+
+		</div>
+        <div class="clear">
+        </div>
+</div>
+
+
+
+{%endblock%}
