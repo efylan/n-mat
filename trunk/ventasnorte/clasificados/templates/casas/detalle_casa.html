@@ -1,0 +1,163 @@
+{%extends "casas/base_casas.html"%}
+
+{%block title%}
+<title>Clasificado {{casa.id}}a - {{casa.titulo}}</title>
+{%endblock%}
+
+{%block extrahead%}
+		<link rel="stylesheet" href="/media/jquery/colorbox/css/colorbox.css" />
+		<script src="/media/jquery/colorbox/js/jquery.colorbox-min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$(".photogroup").colorbox({rel:'photogroup', transition:"fade"});
+			});
+		</script>
+
+{%endblock%}
+
+
+
+{%block breadcrumbs%}
+    <p>
+        <a href="{%url views.index%}">Inicio</a>
+        >> <a href="{%url clasificados.views.main_casas%}">Casas e Inmuebles</a>
+        >> <a href="{%url clasificados.views.categorias_casas%}">Categorias</a>
+        >> <a href="{%url clasificados.views.disponibilidad_casas casa.categoria_casa.slug%}">{{casa.categoria_casa.nombre}}</a>
+        >> <a href="{%url clasificados.views.catdis_casas casa.categoria_casa.slug casa.get_dispo_slug%}">{{casa.get_disponibilidad_display}}</a>
+        >> <span>{{casa.titulo}}</span>
+    </p>
+{%endblock%}
+
+{%block centercontent%}
+    <h3 class="titulo">{{casa.titulo}}</h3>
+
+
+<div class="gall_slot">
+    {%for foto in casa.get_sliced_gallery%}
+        <div class="imagegall">            
+            <a href="/media/{{foto.foto.url}}" class="photogroup">
+                <img class="gallery" src="/media/{{foto.get_thumb_url}}" />
+            </a>
+        </div>
+    {%endfor%}
+    {%with casa.foto_count as numfotos%}
+    {%if numfotos > 3%}
+    <br>
+    <a href="{%url clasificados.views.album_casa casa.id%}" class="button blueb">Album de fotos ({{numfotos}})</a>
+    {%endif%}
+    {%endwith%}
+
+</div>
+
+
+
+    <div class="topinfo">
+        <table class="info_casa">
+        {%if casa.precio%}
+        <tr>
+            <td>
+               <span class="precio"> ${{casa.precio|floatformat:2}} {{casa.get_moneda_display}}</span>
+            </td>
+        </tr>
+        {%endif%}
+
+        <tr>
+            <td>En {{casa.get_disponibilidad_display}}</td>
+        </tr>
+        <tr>
+            <td>En {{casa.municipio}}, {{casa.estado}}</td>
+        </tr>
+        </table>
+        
+        {% if request.user.id %}
+            {%if fav_exists%}
+            <form method="POST" action="{%url clasificados.views.rmfav_casa casa.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Quitar Favorito" class="button orangeb">
+            </form>
+            {%else%}
+            <form method="POST" action="{%url clasificados.views.fav_casa casa.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Agregar Favorito" class="button orangeb">
+            </form>
+            {%endif%}
+        {%endif%}
+        {%if request.user.id == casa.user.id%}
+            <form method="POST" action="{%url clasificados.views.apagar_casa casa.id%}">
+                {%csrf_token%}
+                <input type="submit" value="DESACTIVAR CLASIFICADO" class="button redb">
+            </form>
+        {%endif%}
+    </div>
+
+
+    <p class="descripcion">
+        {{casa.descripcion}}
+    </p>
+
+<div class="clear"></div>
+
+
+<div class="casa_data">
+        <table class="dets_casa">
+            <tr>
+                <th>Colonia<td>{{casa.colonia}}</td></th>
+            </tr>
+
+            <tr>
+                <th>Codigo Postal</th><td>{{casa.codigo_postal}}</td>
+            </tr>
+
+            <tr>
+                <th>Tamaño de Area</th><td>{{casa.superficie}}</td>
+            </tr>
+
+            <tr>
+                <th>No. de Baños</th><td>{{casa.banos}}</td>
+            </tr>
+
+            <tr>
+                <th>Domicilio</th><td>{{casa.domicilio}}</td>
+            </tr>
+
+        </table>
+</div> 
+
+<div class="casa_data">
+        <table class="dets_casa">
+            <tr>
+                <th>Condicion</th><td>{{casa.get_condicion_display}}</td>
+            </tr>
+            <tr>
+                <th>Referencia</th><td>{{casa.referencia}}</td>
+            </tr>
+                <th>Pisos</th><td>{{casa.pisos}}</td>
+            <tr>
+                <th>No. de Recamaras</th><td>{{casa.recamaras}}</td>
+            </tr>           
+        </table>
+
+</div>
+
+<table class="contact_info">
+    <tr>
+        <th class="section_title" colspan="2">Informacion de Contacto</th>
+    </tr>
+
+    <tr>
+        <th>Correo Electronico</th> <td>{{casa.email}}</td>
+    </tr>
+
+    <tr>
+        <th>Telefono Fijo</th><td>{{casa.telefono}}</td>
+    </tr>
+
+    <tr>
+        <th>Celular</th><td>{{casa.celular}}</td>
+    </tr>
+
+    <tr>
+        <th>Direccion</th><td>{{casa.direccion}}</td>
+    </tr>
+</table>
+{%endblock%}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/media/css/ticket.css" />
+        <script type="text/javascript" src="/media/jquery/js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="/media/jquery/printelement/jquery.printElement.min.js"></script>
+        <script type="text/javascript">
+            function print(){
+            $("#ticket").printElement();
+            };
+        </script>
+    </head>
+
+    <body>
+        <div id="ticket">
+            Negocios de Matamoros<br>
+            TICKET DE COBRO<br>
+            -------------------------------------------------<br>
+
+            {%if venta.tipo == 1%}
+            ID Clasificado AUTO: {{clasif.id}}
+            {%else%}
+            ID Clasificado CASA: {{clasif.id}}
+            {%endif%}
+            <br>
+            ID de usuario: {{user.id}} ({{user.username}})<br>
+            {{user.first_name}} {{user.last_name}}<br>
+            -------------------------------------------------<br>
+
+            <table class="ticket_table">
+                <tr>
+                    <td>CANTIDAD</td>
+                    <td>CONCEPTO</td>
+                    <td>PRECIO</td>
+                    <td>IMPORTE</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{venta.nombre_paquete}}</td>
+                    <td></td>
+                    <td>{{venta.precio_paquete}}</td>
+                </tr>
+                {%if venta.fotos_extra > 0%}
+                <tr>
+                    <td>{{venta.fotos_extra}}</td>
+                    <td>Foto Extra</td>
+                    <td>{{venta.precio_foto}}</td>
+                    <td>{{venta.get_importe_foto}}</td>
+                </tr>
+                {%endif%}
+                {%if venta.texto_extra%}
+                <tr>
+                    <td></td>
+                    <td>Texto Extra</td>
+                    <td></td>
+                    <td>{{venta.precio_texto}}</td>
+                </tr>
+                {%endif%}
+                {%if venta.prioridad%}
+                <tr>
+                    <td></td>
+                    <td>Prioridad</td>
+                    <td></td>
+                    <td>{{venta.precio_prioridad}}</td>
+                </tr>
+                {%endif%}
+                <tr>
+                    <td>TOTAL</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{venta.total}}</td>
+                </tr>
+
+            </table>
+
+            <br>
+            -------------------------------------------------<br>
+            http://negociosdematamoros.com
+
+        </div>
+
+        <div class="controls">
+            <a href="{%url caja.views.panel%}" class="floatl button blueb">Regresar</a>
+            <a href="javascript:void(0)" onclick="print();" class="floatr button blueb">Imprimir</a>
+        </div>
+    </body>
+</html>

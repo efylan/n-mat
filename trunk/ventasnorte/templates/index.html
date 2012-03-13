@@ -1,0 +1,24 @@
+{%extends "base.html"%}
+{%block maincontent%}
+    <div id='lower-wrapper'> 
+
+        <div id='lowerbar-wrapper'> 
+            <h2 class="lowerbar">Clasificados</h2>
+            <p>Da un vistazo a clasificados de Matamoros, ya sea que busques <a href="{%url clasificados.views.main_autos%}" class="blue">AUTOS</a> o  <a href="{%url clasificados.views.main_casas%}" class="blue">CASAS</a> ¡Seguramente encontraras lo que estas buscando!</p>
+        </div>
+ 
+        <div id='lowerbar-wrapper'> 
+            <h2>Autos</h2>
+            <p>Navega por nuestra coleccion de clasificados de <a href="{%url clasificados.views.main_autos%}" class="blue">autos y cualquier tipo de vehiculos motorizados</a>, busca por las caracteristicas que desees encontrar o navega por las marcas y modelos de vehiculos registrados.</p>
+
+        </div> 
+
+        <div id='lowerbar-wrapper'> 
+            <h2>Casas</h2>
+            <p>Si estas buscando <a href="{%url clasificados.views.main_casas%}" class="blue">casas, departamentos, bodegas, locales, terrenos, etc.</a> las podras encontrar en esta seccion.</p>
+        </div> 
+
+    <div style='clear: both;'/> 
+    </div> 
+
+{%endblock%}

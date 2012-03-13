@@ -1,0 +1,27 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+<div id="content">
+
+    <table class="user_list">
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Nombre(s)</th>
+            <th>Apellido(s)</th>
+            <th>Telefono</th>
+            <th>Celular</th>
+        </tr>
+        {%for user in users%}
+        <tr>
+            <td><a href="{%url caja.views.detalle_usuario user.id%}">{{user.id}}</a></td>
+            <td><a href="{%url caja.views.detalle_usuario user.id%}">{{user.username}}</a></td>
+            <td><a href="{%url caja.views.detalle_usuario user.id%}">{{user.first_name}}</a></td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.get_profile.telefono}}</td>
+            <td>{{user.get_profile.celular}}</td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+{%endblock%}

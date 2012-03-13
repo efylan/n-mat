@@ -1,0 +1,19 @@
+{%extends "base.html"%}
+
+{%block maincontent%}
+{%block title%}
+    <title>Panel de Usuario - Negocios de matamoros</title>
+{%endblock title%}
+<div id="content">
+    <ul class="blue">
+        <li><a class="blue" href="{% url users.views.crear_casa %}">Crear Clasificado de Casa/Bienes inmuebles</a></li>
+        <li><a class="blue" href="{% url users.views.crear_casa %}">Crear Clasificado de Vehiculo</a></li>
+    </ul>
+
+    <ul class="blue">
+        <li><a class="blue" href="{% url users.views.password_change %}">Cambiar Contraseña</a></li>
+        <li><a class="blue" href="{% url users.views.mis_clasificados %}">Mis Clasificados</a></li>
+        <li><a class="blue" href="{% url users.views.mis_favoritos %}">Mis Favoritos</a></li>
+    </ul>
+</div>
+{%endblock%}

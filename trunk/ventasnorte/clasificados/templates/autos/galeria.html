@@ -1,0 +1,80 @@
+{%extends "autos/base_autos.html"%}
+
+{%block title%}
+<title>Álbum de Clasificado {{auto.id}}a - {{auto.titulo}}</title>
+{%endblock%}
+
+{%block extrahead%}
+		<link rel="stylesheet" href="/media/jquery/colorbox/css/colorbox.css" />
+		<script src="/media/jquery/colorbox/js/jquery.colorbox-min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$(".photogroup").colorbox({rel:'photogroup', transition:"fade"});
+			});
+		</script>
+
+{%endblock%}
+
+
+{%block breadcrumbs%}
+    <p>
+        <a href="{%url views.index%}">Inicio</a>
+        >> <a href="{%url clasificados.views.main_autos%}">Vehiculos</a>
+        >> <a href="{%url clasificados.views.marcas_autos%}">Marcas</a>
+        >> <a href="{%url clasificados.views.modelos_autos auto.modelo.marca.slug%}">{{auto.modelo.marca.nombre}}</a>
+        >> <a href="{%url clasificados.views.series_autos auto.modelo.slug%}">{{auto.modelo.nombre}}</a>
+
+        >> <span>{{auto.titulo}}</span>
+    </p>
+{%endblock%}
+
+
+
+{%block centercontent%}
+
+    <h3 class="titulo">Álbum de {{auto.titulo}}</h3>
+
+
+<a href="{%url clasificados.views.ver_auto auto.id%}" class="button blueb">Regresar a Clasificado</a>
+<br>
+<br>
+<br>
+
+
+
+<div class="gall_slot">
+    {%for foto in auto.fotoauto_set.all%}
+        <div class="imagegall">            
+            <a href="/media/{{foto.foto.url}}" class="photogroup">
+                <img class="gallery" src="/media/{{foto.get_thumb_url}}" />
+            </a>
+        </div>
+    {%endfor%}
+</div>
+
+
+<a href="{%url clasificados.views.ver_auto auto.id%}" class="button blueb">Regresar a Clasificado</a>
+
+<table class="contact_info">
+    <tr>
+        <th class="section_title" colspan="2">Informacion de Contacto</th>
+    </tr>
+
+    <tr>
+        <th>Correo Electronico</th> <td>{{auto.email}}</td>
+    </tr>
+
+    <tr>
+        <th>Telefono Fijo</th><td>{{auto.telefono}}</td>
+    </tr>
+
+    <tr>
+        <th>Celular</th><td>{{auto.celular}}</td>
+    </tr>
+
+    <tr>
+        <th>Direccion</th><td>{{auto.direccion}}</td>
+    </tr>
+</table>
+
+{%endblock%}

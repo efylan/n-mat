@@ -1,0 +1,39 @@
+{% load cache %}
+{% load menu_tags %}
+
+{% cache 500 menu %}
+<div id="menu">
+		<ul class="sf-menu">
+	        <li id="mnu_home" ><a id="a_home" href="{%url views.index%}">Home</a></li>
+            <li id="mnu_autos">
+				<a id="a_autos" href="{%url clasificados.views.main_autos%}">Vehículos</a>
+                <ul>
+                <li>
+                    <a href="{%url clasificados.views.simple_search_autos%}">Búsqueda</a>
+                </li>
+                <li>
+                    <a href="{% url clasificados.views.marcas_autos %}">Todas las Marcas</a>
+                    <ul>
+                        {% menu_autos %}
+                    </ul>
+                </li>
+
+
+                </ul>
+            </li>
+            <li id="mnu_casas">
+				<a id="a_casas" href="{%url clasificados.views.main_casas%}">Casas e Inmuebles</a>
+                <ul>
+                <li>
+                    <a href="{%url clasificados.views.simple_search_casas%}">Búsqueda</a>
+                </li>
+                {% menu_casas %}
+                </ul>
+            </li>
+
+	        <li id="mnu_about"><a id="a_about" href="#">Nuestros Servicios</a></li>
+            <li id="mnu_contact"><a id="a_contact" href="#">Contáctanos</a></li>
+
+		</ul>
+</div>
+{% endcache %}

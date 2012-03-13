@@ -1,0 +1,31 @@
+{% load pagination_tags %}
+{% autopaginate casas %}
+
+            {%for casa in casas%}
+            <div class="list_casa">
+                <h3 class="casa_header">
+                    <a href="{%url clasificados.views.ver_casa casa.id%}">{{casa.titulo}}</a>
+                </h3>
+
+                <div class="casa_thumb">
+                    <a href="{%url clasificados.views.ver_casa casa.id%}">
+                        <img src="/media/{{casa.get_main_thumb_url}}" class="searchthumb">
+                    </a>
+                </div>
+
+
+                <div class="casa_resultinfo">
+                    <span class="blue">{{casa.categoria_casa.nombre}} en {{casa.get_disponibilidad_display}}, en {{casa.municipio}}, {{casa.estado}}. Colonia {{casa.colonia}}</span>
+                    <br>
+                    Precio: <span class="green">{{casa.get_precio}} {%if casa.moneda%} {{casa.get_moneda_display}} {%endif%} </span>
+                    <br>
+                    {%if casa.recamaras%}{{casa.recamaras}} recámaras {%endif%}
+                    {%if casa.banos%} {{casa.banos}} baños.{%endif%}
+                    <br>
+                    {{casa.descripcion|slice:":370"}}
+                </div>
+            </div>
+            {%endfor%}
+
+{%paginate%}
+

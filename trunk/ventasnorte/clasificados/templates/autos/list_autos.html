@@ -1,0 +1,68 @@
+{% load pagination_tags %}
+
+
+{% autopaginate autos %}
+
+            {%for auto in autos%}
+            <div class="autoitem" id="id_{{auto.id}}">
+                <a href="{%url clasificados.views.ver_auto auto.id%}" class="aitem_link">
+
+                {{auto.marca.nombre}} {{auto.modelo.nombre}}
+                </a>
+                <br>
+                {{auto.serie.nombre}} <br>
+                <br>
+                {{auto.descripcion|slice:":80"}}
+                <br>
+                <br>
+                {%if auto.precio%}
+                <span class="aitem_price">${{auto.precio}} {{auto.get_moneda_display}}</span>
+                {%endif%}
+            </div>
+
+            <!-- tooltip element -->
+            <div class="tooltip">
+                <a href="{%url clasificados.views.ver_auto auto.id%}">
+	            <img src="/media/{{auto.get_main_thumb_url}}" style="float:left;margin:0 15px 20px 0" />
+                </a>
+                <p>
+                    <a href="{%url clasificados.views.ver_auto auto.id%}" class="aitem_link">
+                    {{auto.titulo}}
+                    </a>
+                </p>
+    
+	            <table style="margin:0">
+		            <tr>
+			            <td class="label">Transmision</td>
+			            <td>{{auto.get_transmision_display}}</td>
+		            </tr>
+		            <tr>
+			            <td class="label">Cilindros</td>
+			            <td>{{auto.cilindros}}</td>
+		            </tr>
+		            <tr>
+			            <td class="label">Condicion</td>
+			            <td>{{auto.get_condicion_display}}</td>
+		            </tr>
+		            <tr>
+			            <td class="label">Kilometraje</td>
+			            <td>{{auto.kilometraje}}</td>
+		            </tr>		
+	            </table>
+
+            </div>
+
+
+            <script>
+            $(document).ready(function() {
+            $("#id_{{auto.id}}").tooltip({
+                effect:'fade',
+                
+            });
+            });
+            </script>
+
+
+            {%endfor%}
+
+{%paginate%}

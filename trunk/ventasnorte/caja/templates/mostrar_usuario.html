@@ -1,0 +1,20 @@
+{%extends "base.html"%}
+
+{%block title%}
+<title>Informacion de Usuario {{user.id}}</title>
+{%endblock%}
+
+{%block maincontent%}
+<div id="content">
+    <p>
+        El usuario <span class="display_username">{{user.username}}</span> tiene el ID <span class="display_id">{{user.id}}</span>
+    </p>
+
+    <p>
+    Y su contraseña es <span class="display_passwd">{{passwd}}</span>
+    </p>
+    <a class="blue" href="{%url caja.views.panel%}">regresar a panel
+</div>
+{%endblock%}
+
+

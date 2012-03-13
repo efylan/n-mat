@@ -1,0 +1,33 @@
+{%extends "base.html"%}
+{%load form_tags%}
+
+{%block maincontent%}
+
+<div id="wrapper">
+
+		<div id="sidecontent">
+            <h2>Búsqueda</h2>
+            {%simple_search_casa%}
+
+<br>
+            <h2>Con palabras</h2>
+            <form class="searchform" action ="{%url clasificados.views.text_search_casa%}">
+                <input class="searchfield" type="text" value="Buscar Casas" onfocus="if (this.value == 'Buscar Casas') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar Casas';}" name="q" />
+                <input class="searchbutton" type="button" value="Ir" />
+            </form>
+
+            {%block sidecontent%}
+            {%endblock%}
+		</div>
+
+
+
+		<div id="centercontent">
+            {%block centercontent%}
+            {%endblock%}
+        </div>
+
+        <div class="clear">
+        </div>
+</div>
+{%endblock%}

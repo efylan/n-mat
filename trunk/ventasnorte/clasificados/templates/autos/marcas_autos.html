@@ -1,0 +1,32 @@
+{%extends "autos/base_autos.html"%}
+
+{%block title%}
+    <title>Buscar por Marcas de Autos - Negocios de Matamoros</title>
+{%endblock title%}
+
+
+
+{%block breadcrumbs%}
+    <p>
+        <a href="{%url views.index%}">Inicio</a>
+        >> <a href="{%url clasificados.views.main_autos%}">Vehiculos</a>
+        >> <span>Marcas</span>
+    </p>
+{%endblock%}
+
+
+{%block centercontent%}
+
+{% load pagination_tags %}
+{% autopaginate marcas %}
+
+            {%for marca in marcas%}
+            <div class="list_auto">
+                <h3><a href="{%url clasificados.views.modelos_autos marca.slug%}">{{marca.nombre}}</a></h3>
+                <br>
+            </div>
+            {%endfor%}
+
+{%paginate%}
+
+{%endblock%}

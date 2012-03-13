@@ -1,0 +1,14 @@
+{%extends "base.html"%}
+
+
+{%block maincontent%}
+<div id="loginform">
+    <form method="POST">
+    {%csrf_token%}
+    <table>
+        {{form}}
+    </table>
+    <input type="submit" value="Iniciar Sesión" class="button blueb">
+    </form>
+</div>
+{%endblock%}

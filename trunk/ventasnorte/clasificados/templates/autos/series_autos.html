@@ -1,0 +1,17 @@
+{%extends "autos/base_autos.html"%}
+
+{%block breadcrumbs%}
+    <p>
+        <a href="{%url views.index%}">Inicio</a>
+        >> <a href="{%url clasificados.views.main_autos%}">Vehiculos</a>
+        >> <a href="{%url clasificados.views.marcas_autos%}">Marcas</a>
+        >> <a href="{%url clasificados.views.modelos_autos modelo.marca.slug%}">{{modelo.marca.nombre}}</a>
+        >> <span>{{modelo.nombre}}</span>
+    </p>
+{%endblock%}
+
+{%block centercontent%}
+
+            {%include "autos/list_autos.html"%}
+
+{%endblock%}

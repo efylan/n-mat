@@ -1,0 +1,154 @@
+{%extends "autos/base_autos.html"%}
+
+{%block title%}
+<title>Clasificado {{auto.id}}a - {{auto.titulo}}</title>
+{%endblock%}
+
+{%block extrahead%}
+		<link rel="stylesheet" href="/media/jquery/colorbox/css/colorbox.css" />
+		<script src="/media/jquery/colorbox/js/jquery.colorbox-min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$(".photogroup").colorbox({rel:'photogroup', transition:"fade"});
+			});
+		</script>
+
+{%endblock%}
+
+
+{%block breadcrumbs%}
+    <p>
+        <a href="{%url views.index%}">Inicio</a>
+        >> <a href="{%url clasificados.views.main_autos%}">Vehiculos</a>
+        >> <a href="{%url clasificados.views.marcas_autos%}">Marcas</a>
+        >> <a href="{%url clasificados.views.modelos_autos auto.modelo.marca.slug%}">{{auto.modelo.marca.nombre}}</a>
+        >> <a href="{%url clasificados.views.series_autos auto.modelo.slug%}">{{auto.modelo.nombre}}</a>
+
+        >> <span>{{auto.titulo}}</span>
+    </p>
+{%endblock%}
+
+
+
+{%block centercontent%}
+
+    <h3 class="titulo">{{auto.titulo}}</h3>
+
+
+<div class="gall_slot">
+    {%for foto in auto.get_sliced_gallery%}
+        <div class="imagegall">            
+            <a href="/media/{{foto.foto.url}}" class="photogroup">
+                <img class="gallery" src="/media/{{foto.get_thumb_url}}" />
+            </a>
+        </div>
+    {%endfor%}
+    {%with auto.foto_count as numfotos%}
+    {%if numfotos > 3%}
+    <br>
+    <a href="{%url clasificados.views.album_auto auto.id%}" class="button blueb">Album de fotos ({{numfotos}})</a>
+    {%endif%}
+    {%endwith%}
+
+</div>
+
+
+    {{auto.pauqete.nombre}}
+    <div class="topinfo">
+        <table class="info_auto">
+        {%if auto.precio%}
+        <tr>
+            <td>
+               <span class="precio"> ${{auto.precio|floatformat:2}} {{auto.get_moneda_display}}</span>
+            </td>
+        </tr>
+        {%endif%}
+
+        <tr>
+            <td>{{auto.marca}}, {{auto.modelo}}, {{auto.serie}}</td>
+        </tr>
+        <tr>
+            <td>En {{auto.municipio}}, {{auto.estado}}</td>
+        </tr>
+        </table>
+        {% if request.user.id %}
+            {%if fav_exists%}
+            <form method="POST" action="{%url clasificados.views.rmfav_auto auto.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Quitar Favorito" class="button orangeb">
+            </form>
+            {%else%}
+            <form method="POST" action="{%url clasificados.views.fav_auto auto.id%}">
+                {%csrf_token%}
+                <input type="submit" value="Agregar Favorito" class="button orangeb">
+            </form>
+            {%endif%}
+        {%if request.user.id == auto.user.id%}
+            <form method="POST" action="{%url clasificados.views.apagar_auto auto.id%}">
+                {%csrf_token%}
+                <input type="submit" value="DESACTIVAR CLASIFICADO" class="button redb">
+            </form>
+        {%endif%}
+
+        {%endif%}
+    </div>
+
+
+    <p class="descripcion">
+        {{auto.descripcion}}
+    </p>
+
+
+    <table class="dets_auto">
+        <tr>
+            <th>Condicion</th><th>Pasajeros</th>
+        </tr>
+        <tr>
+            <td>{{auto.get_condicion_display}}</td>   <td>{{auto.pasajeros}}</td>
+        </tr>
+        <tr>
+            <th>Color</th><th>Transmision</th>
+        </tr>
+        <tr>
+            <td>{{auto.color}}</td><td>{{auto.transmision}}</td>
+        </tr>
+        <tr>
+            <th>Puertas</th><th>Cilindros</th>
+        </tr>
+        <tr>
+            <td>{{auto.puertas}}</td><td>{{auto.cilindros}}</td>
+        </tr>
+        <tr>
+            <th>Combustible</th><th>Kilometraje</th>
+        </tr>
+        <tr>
+            <td>{{auto.combustible}}</td><td>{{auto.kilometraje}}</td>
+        </tr>
+
+    </table>
+
+
+
+<table class="contact_info">
+    <tr>
+        <th class="section_title" colspan="2">Informacion de Contacto</th>
+    </tr>
+
+    <tr>
+        <th>Correo Electronico</th> <td>{{auto.email}}</td>
+    </tr>
+
+    <tr>
+        <th>Telefono Fijo</th><td>{{auto.telefono}}</td>
+    </tr>
+
+    <tr>
+        <th>Celular</th><td>{{auto.celular}}</td>
+    </tr>
+
+    <tr>
+        <th>Direccion</th><td>{{auto.direccion}}</td>
+    </tr>
+</table>
+
+{%endblock%}
