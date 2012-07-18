@@ -22,7 +22,7 @@ IMG_NOT_AVAILABLE_CASA = "/img/no_disponible_casa.png"
 IMG_NOT_AVAILABLE_AUTO = "/img/no_disponible_auto.png"
 
 class Paquete(models.Model):
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=30, unique=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     dias_activo = models.IntegerField()
     min_fotos = models.IntegerField()
@@ -43,7 +43,7 @@ except:
 
 class CategoriaCasa(models.Model):
     nombre = models.CharField(max_length=30, unique=True)
-    slug = models.SlugField(editable=False)
+    slug = models.SlugField(editable=False, unique=True)
     def __unicode__(self):
         return self.nombre
 
@@ -51,6 +51,8 @@ class CategoriaCasa(models.Model):
         self.slug= slugify(self.nombre)
         super(CategoriaCasa, self).save(*args, **kwargs)
 
+    def clasif_count(self):
+        return self.clasifcasa_set.filter(status=0).count()
 
 try:
     admin.site.register(CategoriaCasa)
@@ -253,7 +255,7 @@ class MarcaAuto(models.Model):
     nombre=models.CharField(max_length=70, unique=True)
     logo = models.ImageField(upload_to="logos_auto", blank=True, null=True)
     fondo = models.ImageField(upload_to="fondos_auto", blank=True, null=True)
-    slug = models.SlugField(editable=False)
+    slug = models.SlugField(editable=False, unique=True)
     
     def __unicode__(self):
         return self.nombre
@@ -261,6 +263,60 @@ class MarcaAuto(models.Model):
     def save(self, *args, **kwargs):
         self.slug= slugify(self.nombre)
         super(MarcaAuto, self).save(*args, **kwargs)
+
+        if self.fondo:
+            self.resize_img(self.fondo)
+        if self.logo:
+            self.resize_logo(self.logo)
+
+    def resize_img(self, imagen):
+        maxw=150
+        maxh=150
+        method= Image.ANTIALIAS
+        w=imagen.width
+        h=imagen.height
+        path=imagen.path
+        if h<=maxh or w<=maxw:
+            pass
+        else:
+            pict= Image.open(path)
+
+
+            imAspect=float(w)/float(h)
+            outAspect=float(maxw)/float(maxh)
+
+            if imAspect>=outAspect:
+                img=pict.resize((maxw, int((float(maxw)/imAspect)+0.5)), method)
+                img.save(path)
+            else:
+                img=pict.resize((int((float(maxh)*imAspect)+0.5),maxh),method)
+                img.save(path)
+
+    def resize_logo(self, imagen):
+        maxw=50
+        maxh=50
+        method= Image.ANTIALIAS
+        w=imagen.width
+        h=imagen.height
+        path=imagen.path
+        if h<=maxh or w<=maxw:
+            pass
+        else:
+            pict= Image.open(path)
+
+
+            imAspect=float(w)/float(h)
+            outAspect=float(maxw)/float(maxh)
+
+            if imAspect>=outAspect:
+                img=pict.resize((maxw, int((float(maxw)/imAspect)+0.5)), method)
+                img.save(path)
+            else:
+                img=pict.resize((int((float(maxh)*imAspect)+0.5),maxh),method)
+                img.save(path)
+
+    def clasif_count(self):
+        return self.clasifauto_set.filter(status=0).count()
 
 
 try:
@@ -271,7 +327,7 @@ except:
 class ModeloAuto(models.Model):
     marca=models.ForeignKey(MarcaAuto)
     nombre=models.CharField(max_length=70, unique=True)
-    slug = models.SlugField(editable=False)
+    slug = models.SlugField(editable=False, unique=True)
 
     def __unicode__(self):
         return self.nombre
@@ -279,6 +335,8 @@ class ModeloAuto(models.Model):
         self.slug= slugify(self.nombre)
         super(ModeloAuto, self).save(*args, **kwargs)
 
+    def clasif_count(self):
+        return self.clasifauto_set.filter(status=0).count()
 
 try:
     admin.site.register(ModeloAuto)

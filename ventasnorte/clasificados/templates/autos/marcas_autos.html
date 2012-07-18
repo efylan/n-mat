@@ -17,16 +17,27 @@
 
 {%block centercontent%}
 
-{% load pagination_tags %}
-{% autopaginate marcas %}
 
+            <table class="list_auto">
+            <tr>
+                <th class="marca_cell">
+                    Marca
+                </th>
+                <th class="marca_cell">
+                    Vehiculos disponibles
+                </th>
+            </tr>
             {%for marca in marcas%}
-            <div class="list_auto">
-                <h3><a href="{%url clasificados.views.modelos_autos marca.slug%}">{{marca.nombre}}</a></h3>
-                <br>
-            </div>
-            {%endfor%}
+                <tr>
+                    <td class="marca_cell">
+                        <a href="{%url clasificados.views.modelos_autos marca.slug%}">{{marca.nombre}}</a>
+                    </td>
+                    <td class="marca_cell">
+                        <a href="{%url clasificados.views.modelos_autos marca.slug%}">{{marca.clasif_count}}</a>
+                    </td>
+                </tr>
+           {%endfor%}
+            </table>
 
-{%paginate%}
 
 {%endblock%}

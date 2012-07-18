@@ -4,7 +4,7 @@
 {% autopaginate autos %}
 
             {%for auto in autos%}
-            <div class="autoitem" id="id_{{auto.id}}">
+            <div class="autoitem" id="id_{{auto.id}}" style="background-image:url(/media/{{auto.marca.fondo.url}});">
                 <a href="{%url clasificados.views.ver_auto auto.id%}" class="aitem_link">
 
                 {{auto.marca.nombre}} {{auto.modelo.nombre}}

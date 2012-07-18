@@ -15,8 +15,11 @@ import simplejson
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.db.models import Q
+from django.contrib.admin.views.decorators import staff_member_required
+
 
 @login_required
+@staff_member_required
 def registrar_usuario(request):
     if request.POST:
         f=RegistrationForm(request.POST)
@@ -52,16 +55,19 @@ def registrar_usuario(request):
     return render_to_response("registro_caja.html", {'form':f}, RequestContext(request))
 
 @login_required    
+@staff_member_required
 def mostrar_usuario(request):
     user={'username':'pruebaza','id':'999'}
     passwd='asdf43'
     return render_to_response('mostrar_usuario.html',{'user':user, 'passwd':passwd}, RequestContext(request))
 
 @login_required
+@staff_member_required
 def panel(request):
     return render_to_response("panel.html", {}, RequestContext(request))
 
 @login_required
+@staff_member_required
 def crear_ccasa(request):
     if request.POST:
         f=CrearCasaForm(request.POST)
@@ -97,6 +103,7 @@ def crear_ccasa(request):
     return render_to_response("crear_clasif_casa.html", {'form':f,'form2':f2}, RequestContext(request))
 
 @login_required
+@staff_member_required
 def crear_cauto(request):
     if request.POST:
         f=CrearAutoForm(request.POST)
@@ -132,6 +139,7 @@ def crear_cauto(request):
     return render_to_response("crear_clasif_auto.html", {'form':f,'form2':f2}, RequestContext(request))
 
 @login_required
+@staff_member_required
 def review_casa(request,casa_id):
     try:
         casa=ClasifCasa.objects.get(id=casa_id)
@@ -142,6 +150,7 @@ def review_casa(request,casa_id):
     return render_to_response('review_casa.html',{'casa':casa, 'form':f},RequestContext(request))
 
 @login_required
+@staff_member_required
 def review_auto(request,auto_id):
     try:
         auto=ClasifAuto.objects.get(id=auto_id)
@@ -152,6 +161,7 @@ def review_auto(request,auto_id):
     return render_to_response('review_auto.html',{'auto':auto,'form':f},RequestContext(request))
 
 @login_required
+@staff_member_required
 def usuarios_consultar(request):
     if request.POST:
         user_id=request.POST['elegido']
@@ -179,6 +189,7 @@ def usuarios_consultar(request):
         return HttpResponseNotFound()
 
 @login_required
+@staff_member_required
 def agregar_fotos_casa(request,casa_id):
     try:
         casa=ClasifCasa.objects.get(id=casa_id)
@@ -210,6 +221,7 @@ def agregar_fotos_casa(request,casa_id):
 
 
 @login_required
+@staff_member_required
 def agregar_fotos_auto(request,auto_id):
     try:
         auto=ClasifAuto.objects.get(id=auto_id)
@@ -240,6 +252,7 @@ def agregar_fotos_auto(request,auto_id):
         return render_to_response('review_auto.html',{'auto':auto, 'form':f},RequestContext(request))
 
 @login_required
+@staff_member_required
 def editar_casa(request, casa_id):
     try:
         casa = ClasifCasa.objects.get(id=casa_id)
@@ -277,6 +290,7 @@ def editar_casa(request, casa_id):
 
 
 @login_required
+@staff_member_required
 def editar_auto(request, auto_id):
     try:
         auto=ClasifAuto.objects.get(id=auto_id)
@@ -310,6 +324,7 @@ def editar_auto(request, auto_id):
     return render_to_response("crear_clasif_auto.html", {'form':f,'form2':f2}, RequestContext(request))
 
 @login_required
+@staff_member_required
 def eliminar_foto_casa(request, foto_id):
     try:
         foto = FotoCasa.objects.get(id=foto_id)
@@ -324,6 +339,7 @@ def eliminar_foto_casa(request, foto_id):
         return HttpResponseRedirect('/caja/review_casa/%s/'%casa)
 
 @login_required
+@staff_member_required
 def eliminar_foto_auto(request, foto_id):
     try:
         foto = FotoAuto.objects.get(id=foto_id)
@@ -338,6 +354,7 @@ def eliminar_foto_auto(request, foto_id):
         return HttpResponseRedirect('/caja/review_auto/%s/'%auto)
 
 @login_required
+@staff_member_required
 def foto_prin_casa(request, foto_id):
     try:
         foto = FotoCasa.objects.get(id=foto_id)
@@ -352,6 +369,7 @@ def foto_prin_casa(request, foto_id):
         return HttpResponseRedirect('/caja/review_casa/%s/'%casa)
 
 @login_required
+@staff_member_required
 def foto_prin_auto(request, foto_id):
     try:
         foto = FotoAuto.objects.get(id=foto_id)
@@ -368,12 +386,14 @@ def foto_prin_auto(request, foto_id):
 
 
 @login_required
+@staff_member_required
 def modificaciones(request):
     f1=IdForm()
     f2=NameSearchForm()
     return render_to_response('edicion/modificaciones.html', {'f1':f1,'f2':f2}, RequestContext(request))
 
 @login_required
+@staff_member_required
 def id_search(request):
     if request.POST:
         f = IdForm(request.POST)
@@ -403,6 +423,7 @@ def id_search(request):
           
 
 @login_required
+@staff_member_required
 def name_search(request):
     if request.GET:
         f = NameSearchForm(request.GET)
@@ -445,6 +466,7 @@ def name_search(request):
 
 
 @login_required
+@staff_member_required
 def detalle_usuario(request, user_id):
     try:
         user = User.objects.get(id=user_id)
@@ -498,6 +520,7 @@ def venta_casa(request, casa_id):
         messages.error(request, "Sin accion tomada. No se realizo la venta.")
         return HttpResponseRedirect('/caja/panel/')
 
+@staff_member_required
 def venta_auto(request, auto_id):
     try:
         auto = ClasifAuto.objects.get(id=auto_id)
@@ -540,7 +563,7 @@ def venta_auto(request, auto_id):
         messages.error(request, "Sin accion tomada. No se realizo la venta.")
         return HttpResponseRedirect('/caja/panel/')
 
-
+@staff_member_required
 def display_ticket(request, venta_id):
     try:
         venta = Venta.objects.get(id=venta_id)

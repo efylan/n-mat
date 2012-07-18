@@ -588,9 +588,28 @@ ul.cssTabs.blue > li.active {
 
 .list_auto{
     border:1px solid silver;
-    padding:0 10px 10px 10px;
+    padding:5px;
+    border-collapse:collapse;
+    margin:auto;
+    width:70%;
+}
+.marca_cell{
+    border:1px solid silver;
+    padding:5px;
 }
 
+.list_modelo{
+    border:1px solid silver;
+    padding:5px;
+    border-collapse:collapse;
+    margin:auto;
+    width:70%;
+}
+
+.modelo_cell{
+    border:1px solid silver;
+    padding:5px;
+}
 
 /* -----------BOTONES----------- */
 
@@ -912,6 +931,8 @@ form .exceeded{color:#e00;}
     margin-left:10px;
     background-color:white;
     border:1px solid #DDDDDD;
+    background-repeat:no-repeat;
+    background-position:center; 
 }
 
 .aitem_price{
@@ -950,3 +971,13 @@ form .exceeded{color:#e00;}
 	font-weight:bold;
 }
 
+.indimg{
+    margin-left:56px;
+}
+
+.pagination{margin-top:30px; margin-bottom:20px;}
+.pagination .prev{background-color:#0084ce; color:white; padding:10px;}
+.pagination .next{background-color:#0084ce; color:white; padding:10px;}
+.pagination .page{background-color:#0084ce; color:white; padding:10px;}
+.pagination .current{background-color:silver;}
+.pagination .disabled{background-color:silver;}
