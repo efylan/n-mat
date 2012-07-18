@@ -18,12 +18,27 @@
 {% load pagination_tags %}
 {% autopaginate categorias %}
 
+        <table class="list_modelo">
+            <tr>
+                <th class="modelo_cell">
+                    Categoria
+                </th>
+                <th class="modelo_cell">
+                    Inmuebles disponibles
+                </th>
+            </tr>
         {%for categoria in categorias%}
-        <div class="list_auto">
-            <h3><a href="{%url clasificados.views.disponibilidad_casas categoria.slug%}">{{categoria.nombre}}</a></h3>
-            <br>
-        </div>
+            <tr>
+            <td class="modelo_cell">
+                <a href="{%url clasificados.views.disponibilidad_casas categoria.slug%}">{{categoria.nombre}}</a>
+            </td>
+            <td class="modelo_cell">
+                <a href="{%url clasificados.views.disponibilidad_casas categoria.slug%}">{{categoria.clasif_count}}</a>
+            </td>
+
+            </tr>
         {%endfor%}
+        </table>
 
 {%paginate%}
 

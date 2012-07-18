@@ -2,12 +2,14 @@
 from django.shortcuts import HttpResponseRedirect, render_to_response
 from users.forms import LoginForm, PasswordChangeForm, CrearCasaForm, CrearAutoForm, DisplayUserForm
 from users.models import Profile
+from django.core.files.base import ContentFile
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from clasificados.models import ClasifCasa, ClasifAuto
+from clasificados.models import ClasifCasa, ClasifAuto, FotoCasa, FotoAuto
 from caja.forms import PhotoForm
+from caja.models import Venta
 import datetime
 
 def login(request):
@@ -230,7 +232,7 @@ def crear_casa(request):
             casa.save()
 
             messages.success(request, 'Clasificado creado con exito')
-            return HttpResponseRedirect('/users/review_casa/%s/' % casa.id)
+            return HttpResponseRedirect('/usuarios/review_casa/%s/' % casa.id)
     else:
         f=CrearCasaForm()
         f2=DisplayUserForm(request.user)
@@ -251,7 +253,7 @@ def review_casa(request,casa_id):
         return Http404()
 
     f = PhotoForm(casa)
-    return render_to_response('review_casa.html',{'casa':casa, 'form':f},RequestContext(request))
+    return render_to_response('review_casa_usr.html',{'casa':casa, 'form':f},RequestContext(request))
 
 
 @login_required
@@ -359,4 +361,103 @@ def venta_auto(request, auto_id):
     else:
         messages.error(request, "Sin accion tomada. No se realizo la venta.")
         return HttpResponseRedirect('/caja/panel/')
+
+
+def editar_casa(request, casa_id):
+    try:
+        casa_i = ClasifCasa.objects.get(id=casa_id)
+        paquete = casa_i.paquete
+    except:
+        messages.error(request, "Clasificado con ID %sc no encontrado" % casa_id)
+        return HttpResponseRedirect('/usuarios/panel/')
+
+    if request.POST:
+        f=CrearCasaForm(request.POST, instance=casa_i)
+        f2=DisplayUserForm(None, request.POST)
+        if f.errors or f2.errors:
+            messages.error(request, 'El formulario contiene errores')
+            return render_to_response("crear_clasif_casa.html", {'form':f,'form2':f2}, RequestContext(request))
+        else:
+            casa=f.save(commit=False)
+
+            if casa.status == 1 or casa.status == 0:
+                casa.paquete = paquete
+
+            user = request.user
+
+            casa.user = user
+            casa.email = f2.cleaned_data['email']
+            casa.telefono = f2.cleaned_data['phone_number']
+            casa.celular = f2.cleaned_data['cellphone']
+            casa.direccion = f2.cleaned_data['address'] 
+
+            casa.save()
+
+            messages.success(request, 'Clasificado editado con exito')
+            return HttpResponseRedirect('/usuarios/review_casa/%s/' % casa.id)
+    else:
+        f=CrearCasaForm(instance=casa_i)
+        f2=DisplayUserForm(request.user)
+
+    return render_to_response("crear_clasif_casa.html", {'form':f,'form2':f2}, RequestContext(request))
+
+@login_required
+def agregar_fotos_casa(request,casa_id):
+    try:
+        casa=ClasifCasa.objects.get(id=casa_id)
+    except ClasifCasa.DoesNotExist:
+        messages.error(request, 'El clasificado No. %sc no existe.'%casa_id)
+        return HttpResponseRedirect('/usuarios/panel/')
+    f = PhotoForm(casa)
+    if request.POST:
+        f = PhotoForm(casa, request.POST,request.FILES)
+        if f.errors:
+            return render_to_response('review_casa.html',{'casa':casa, 'form':f},RequestContext(request))
+        else:
+            for key in request.FILES.keys():
+                imagen=request.FILES[key]                
+                fotocasa=FotoCasa()
+                if key == "main_picture":
+                    print "MAIN"
+                    fotocasa.principal=True
+                else:
+                    fotocasa.principal=False
+                fotocasa.casa=casa
+                img_content = ContentFile(imagen.read()) 
+                fotocasa.foto.save(imagen.name, img_content)
+                fotocasa.save()
+                
+            return HttpResponseRedirect('/usuarios/review_casa/%s/'%casa.id)
+    else:
+        return render_to_response('review_casa.html',{'casa':casa, 'form':f},RequestContext(request))
+
+
+
+@login_required
+def eliminar_foto_casa(request, foto_id):
+    try:
+        foto = FotoCasa.objects.get(id=foto_id)
+    except:
+        messages.error(request,'La imagen no existe.')
+        return HttpResponseRedirect('/usuarios/panel/')
+    if request.POST:
+        casa = foto.casa.id
+        foto.foto.delete()
+        foto.delete()
+        messages.error(request,'La imagen fue eliminada exitosamente.')
+        return HttpResponseRedirect('/usuarios/review_casa/%s/'%casa)
+
+@login_required
+def foto_prin_casa(request, foto_id):
+    try:
+        foto = FotoCasa.objects.get(id=foto_id)
+    except:
+        messages.error(request,'La imagen no existe.')
+        return HttpResponseRedirect('/usuarios/panel/')
+    if request.POST:
+        casa = foto.casa.id
+        foto.principal=True
+        foto.save()
+        messages.success(request,'La imagen fue seleccionada como PRINCIPAL.')
+        return HttpResponseRedirect('/usuarios/review_casa/%s/'%casa)
 

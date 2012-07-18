@@ -21,13 +21,27 @@
 {% load pagination_tags %}
 {% autopaginate modelos %}
 
+        <table class="list_modelo">
+            <tr>
+                <th class="modelo_cell">
+                    Modelo
+                </th>
+                <th class="modelo_cell">
+                    Vehículos disponibles
+                </th>
+            </tr>
             {%for modelo in modelos%}
-            <div class="list_auto">
-                <h3><a href="{%url clasificados.views.series_autos modelo.slug%}">{{modelo.nombre}}</a></h3>
-                <br>
-            </div>
-            {%endfor%}
+            <tr>
+            <td class="modelo_cell">
+                <a href="{%url clasificados.views.series_autos modelo.slug%}">{{modelo.nombre}}</a>
+            </td>
+            <td class="modelo_cell">
+                <a href="{%url clasificados.views.series_autos modelo.slug%}">{{modelo.clasif_count}}</a>
+            </td>
 
+            </tr>
+            {%endfor%}
+        </table>
 {%paginate%}
 
 
