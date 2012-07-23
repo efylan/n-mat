@@ -1,16 +1,19 @@
 # coding: latin1
 from django.shortcuts import HttpResponseRedirect, render_to_response
-from users.forms import LoginForm, PasswordChangeForm, CrearCasaForm, CrearAutoForm, DisplayUserForm
+from users.forms import LoginForm, PasswordChangeForm, CrearCasaForm, CrearAutoForm, DisplayUserForm, PasswordResetForm
 from users.models import Profile
 from django.core.files.base import ContentFile
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from clasificados.models import ClasifCasa, ClasifAuto, FotoCasa, FotoAuto
 from caja.forms import PhotoForm
 from caja.models import Venta
 import datetime
+from ventasnorte.utils import get_pronounceable_password
+from django.core.mail import send_mail
 
 def login(request):
     f = LoginForm()
@@ -34,9 +37,11 @@ def login(request):
                     auth.login(request, user)
                     if user.is_staff:
                         return HttpResponseRedirect('/caja/panel/')
-                    next=request.GET['next']
-                    return HttpResponseRedirect('%s'%next)
-
+                    if request.GET:
+                        next=request.GET['next']
+                        return HttpResponseRedirect('%s'%next)
+                    else:
+                        return HttpResponseRedirect('/')
                 else:
                     mensaje = "Usuario desactivado."
                     messages.error(request,mensaje)
@@ -460,4 +465,25 @@ def foto_prin_casa(request, foto_id):
         foto.save()
         messages.success(request,'La imagen fue seleccionada como PRINCIPAL.')
         return HttpResponseRedirect('/usuarios/review_casa/%s/'%casa)
+
+def recuperar_password(request):
+    f = PasswordResetForm()
+    if request.POST:
+        f = PasswordResetForm(request.POST)
+        if f.errors:
+            return render_to_response('recuperar_password.html',{'form':f},RequestContext(request))
+        else:
+            username = f.cleaned_data['username']
+            user = User.objects.get(username=username)
+            passwd=get_pronounceable_password(1,2)
+            user.set_password(passwd)
+            user.save()
+            body = "Su nueva contraseña es: %s" % passwd
+            send_mail('Restablecimiento de contraseña', body, 'no-reply@negociosdematamoros.com', recipient_list=[user.email])
+            messages.success(request,'Se ha enviado su nueva contraseña a su cuenta de correo.')
+            return HttpResponseRedirect("/usuarios/login/")
+            
+
+    else:
+        return render_to_response('recuperar_password.html',{'form':f},RequestContext(request))
 

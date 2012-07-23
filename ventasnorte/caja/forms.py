@@ -1,10 +1,14 @@
 # coding: latin1
 from django import forms
-from clasificados.models import ClasifCasa, ClasifAuto, ModeloAuto
+from clasificados.models import ClasifCasa, ClasifAuto, MarcaAuto, ModeloAuto
 from django.contrib.auth.models import User
 
 TIPO_BUSQUEDA_CHOICES=((1, 'Autos'),(2, 'Casas e Inmuebles'))
 
+
+class MyModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return "%i %s" % (obj.id, obj.nombre)
 
 class CrearCasaForm(forms.ModelForm):
     userid=forms.IntegerField(label="ID de usuario")
@@ -26,6 +30,10 @@ class CrearCasaForm(forms.ModelForm):
 
 class CrearAutoForm(forms.ModelForm):
     userid=forms.IntegerField(label="ID de usuario")
+
+    marca = MyModelChoiceField(MarcaAuto.objects, empty_label="--------")
+    modelo = MyModelChoiceField(ModeloAuto.objects, empty_label="--------")
+
     class Meta:
         model=ClasifAuto
         fields=('userid', 'titulo', 'paquete', 'precio', 'moneda', 'estado', 'municipio', 'marca', 'modelo', 'serie', 'condicion', 'pasajeros', 'color', 'transmision', 'puertas', 'cilindros', 'combustible', 'kilometraje', 'descripcion', 'prioridad')

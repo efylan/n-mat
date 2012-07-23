@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 
 urlpatterns = patterns('',
+    url(r'^combo_dependiente/$', 'caja.views.combo_dependiente_autos', name='combo_mm_caja'),
     url(r'^crear_ccasa/$', 'ventasnorte.caja.views.crear_ccasa', name='crear_ccasa'),
     url(r'^crear_cauto/$', 'ventasnorte.caja.views.crear_cauto', name='crear_cauto'),
     url(r'^panel/$', 'ventasnorte.caja.views.panel', name='panel_caja'),

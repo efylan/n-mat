@@ -79,9 +79,18 @@ $(document).ready(function(){
    		$("#id_marca option:selected").each(function () {
 			//alert($(this).val());
 				elegido=$(this).val();
+            if ($('#id_userid').val()>0) {    
+				$.post("/caja/combo_dependiente/", { elegido: elegido }, function(data){
+				$("#id_modelo").html(data);
+			});
+            }
+            else{
 				$.post("/autos/combo_dependiente/", { elegido: elegido }, function(data){
 				$("#id_modelo").html(data);
-			});			
+			});
+
+            }
+			
         });
    })
 

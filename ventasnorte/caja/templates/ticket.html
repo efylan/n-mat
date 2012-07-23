@@ -5,9 +5,12 @@
         <script type="text/javascript" src="/media/jquery/js/jquery-1.7.1.min.js"></script>
         <script type="text/javascript" src="/media/jquery/printelement/jquery.printElement.min.js"></script>
         <script type="text/javascript">
+
             function print(){
             $("#ticket").printElement();
             };
+
+            $( document ).ready( function() {print()});
         </script>
     </head>
 

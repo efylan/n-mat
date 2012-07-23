@@ -3,6 +3,7 @@ from django.conf.urls.defaults import patterns, include, url
 urlpatterns = patterns('',
     url(r'^login/$', 'ventasnorte.users.views.login', name='login'),
     url(r'^logout/$', 'ventasnorte.users.views.logout', name='logout'),
+    url(r'^recuperar_password/$', 'ventasnorte.users.views.recuperar_password', name='password_recover'),
     url(r'^panel/$', 'ventasnorte.users.views.panel', name='user_panel'),
     url(r'^password_change/$', 'ventasnorte.users.views.password_change', name='password_change'),
     url(r'^mis_clasificados/$', 'ventasnorte.users.views.mis_clasificados', name='mis_clasificados'),

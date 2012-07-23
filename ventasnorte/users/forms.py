@@ -13,6 +13,13 @@ class LoginForm(forms.Form):
         self.fields['password'].widget.attrs['class']='required'
 
 
+class PasswordResetForm(forms.Form):
+    username=forms.CharField(label="Nombre de Usuario")
+
+    def __init__(self, *args, **kwargs):
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class']='required'
+
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(max_length=30, min_length=3, help_text="Nombre de usuario entre 3 y 30 caracteres", widget=forms.TextInput(attrs={ 'class': 'required' }), error_messages={'invalid': "El nombre de usuario debe tener entre 3 y 30 caracteres."}, label="Nombre de usuario")

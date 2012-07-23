@@ -1,3 +1,4 @@
+# coding: latin1
 from django.db import models
 from django.db.models import Q
 from lugares.models import Estado, Municipio
@@ -71,7 +72,7 @@ class ClasifCasa(models.Model):
     user = models.ForeignKey(User)
     titulo=models.CharField(max_length=70)
     paquete=models.ForeignKey(Paquete, blank=False, default='')
-    precio=models.DecimalField(max_digits=12,decimal_places=2, null=True, blank=True)
+    precio=models.DecimalField(max_digits=12,decimal_places=2, null=True, blank=True, verbose_name="Precio de Casa")
     moneda=models.PositiveSmallIntegerField(choices=MONEDA_CHOICES, null=True, blank=True)
     disponibilidad=models.PositiveSmallIntegerField(choices=DISPO_CHOICES)
     categoria_casa = models.ForeignKey(CategoriaCasa, verbose_name="Categoria")
@@ -365,14 +366,14 @@ class ClasifAuto(models.Model):
     user = models.ForeignKey(User)
     titulo=models.CharField(max_length=70)
     paquete=models.ForeignKey(Paquete, blank=False, default='')
-    precio=models.DecimalField(max_digits=12,decimal_places=2, null=True, blank=True)
+    precio=models.DecimalField(max_digits=12,decimal_places=2, null=True, blank=True, verbose_name="Precio de auto")
     moneda=models.PositiveSmallIntegerField(choices=MONEDA_CHOICES, null=True, blank=True)
     estado=models.ForeignKey(Estado, blank=False, default='')
     municipio=models.ForeignKey(Municipio, blank=False, default='')
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=0)
     marca=models.ForeignKey(MarcaAuto)
     modelo=models.ForeignKey(ModeloAuto)
-    serie=models.ForeignKey(SerieAuto)
+    serie=models.ForeignKey(SerieAuto, verbose_name="Año")
     condicion=models.IntegerField(choices=CONDICION_AUTO_CHOICES)
     pasajeros=models.IntegerField(null=True, blank=True) #TODO Estara bien este?
     color=models.CharField(max_length=30)
@@ -380,7 +381,7 @@ class ClasifAuto(models.Model):
     puertas=models.IntegerField(null=True, blank=True) #TODO Estara bien este?
     cilindros=models.CharField(max_length=16, null=True, blank=True)
     combustible=models.PositiveSmallIntegerField(choices=COMBUST_CHOICES, null=True, blank=True) #TODO Estara bien este?
-    kilometraje=models.IntegerField(null=True, blank=True)
+    kilometraje=models.IntegerField(null=True, blank=True, verbose_name="Kilometraje actual")
     descripcion=models.TextField(null=True, blank=True)
     prioridad = models.BooleanField(help_text="Cargo extra por presencia en pagina principal.")
     usuario_creador = models.ForeignKey(User, related_name="creadorauto_set")
