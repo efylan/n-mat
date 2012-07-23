@@ -39,7 +39,7 @@ class CasaAdvSearchForm(forms.Form):
 class AutoSimpleSearchForm(forms.Form):
     marca = forms.ModelChoiceField(MarcaAuto.objects.all(), required=False)
     modelo = forms.ModelChoiceField(ModeloAuto.objects.all(), required=False)
-    serie = forms.ModelChoiceField(SerieAuto.objects.all(), required=False)
+    serie = forms.ModelChoiceField(SerieAuto.objects.all(), required=False, label="Año")
     transmision = forms.ChoiceField(choices=TRANSMISION_CHOICES, required=False)
     estado = forms.ModelChoiceField(Estado.objects.all(), required=False)
     municipio = forms.ModelChoiceField(Municipio.objects.all(), required=False)

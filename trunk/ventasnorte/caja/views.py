@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, HttpResponseRedirect, HttpRespo
 from django.http import HttpResponseNotFound
 from django.template import RequestContext
 from django.core.files.base import ContentFile
-from clasificados.models import ClasifCasa, ClasifAuto, FotoCasa, FotoAuto, Paquete
+from clasificados.models import ClasifCasa, ClasifAuto, FotoCasa, FotoAuto, Paquete, MarcaAuto, ModeloAuto
 from caja.forms import CrearCasaForm, CrearAutoForm, DisplayUserForm, PhotoForm, IdForm, NameSearchForm
 from caja.models import Venta
 from users.forms import RegistrationForm
@@ -593,4 +593,29 @@ def paquetes_consultar(request):
 #            return render_to_response("nombre_usuario.txt", {'user':user})
     else:
         return HttpResponseNotFound()
+
+
+def combo_dependiente_autos(request):
+	if request.POST:
+		marca=request.POST['elegido']
+		if not marca=='':
+			modelos=ModeloAuto.objects.filter(marca__id__exact=int(marca)).order_by('nombre')
+			optionlist=[{'id':'','nombre':"-Elegir Modelo-"}]
+			for modelo in modelos:
+				optiondict={}
+				optiondict['id']=modelo.id
+				#print optiondict['id']
+				optiondict['nombre']="%i %s" %(modelo.id, modelo.nombre)
+				optionlist.append(optiondict)
+			return render_to_response("combo_dependiente.txt", {'options':optionlist})
+		else:
+			optionlist=[]
+			optiondict={}
+			optiondict['id']=''
+			optiondict['nombre']="---------"
+			optionlist.append(optiondict)
+			return render_to_response("combo_dependiente.txt", {'options':optionlist})
+			
+	else:
+		pass
 

@@ -10,7 +10,7 @@
     <h3 class="titulo">{{auto.titulo}}</h3>
 
 <div class="photo_slot">
-    <form method="POST" enctype="multipart/form-data" action="{%url caja.views.agregar_fotos_auto auto.id%}">
+    <form method="POST" enctype="multipart/form-data" action="{%url caja.views.agregar_fotos_auto auto.id%}" accept="image/gif,image/jpeg,image/png,image/tiff">
         {%csrf_token%}
         <table>
             {{form}}
